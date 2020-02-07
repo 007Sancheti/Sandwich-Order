@@ -35,10 +35,11 @@ class HotHoagies extends PolymerElement {
       font-family:"roboto"
     }
     .tabs-bar {
-      background-image: linear-gradient(to right, #f83600 0%, #f9d423 100%);
+      background-image: linear-gradient(to right, #1488cc, #2b32b2);;
       width:100%;
       height: auto;
       text-align:center;
+      margin-top:10px;
   }
 
   ul {
@@ -78,9 +79,8 @@ class HotHoagies extends PolymerElement {
   }
   .heading
   {
-    background: linear-gradient(to bottom, rgba(255,255,255,0.15) 0%, rgba(0,0,0,0.15) 100%), 
-    radial-gradient(at top center, rgba(255,255,255,0.40) 0%, rgba(0,0,0,0.40) 120%) #989898; 
-     background-blend-mode: multiply,multiply;color: white;
+    background: linear-gradient(to right, #667db6, #0082c8, #0082c8, #667db6);
+    font-size:24px;
   }
   </style>
   <app-location id="location" route="{{route}}"></app-location>

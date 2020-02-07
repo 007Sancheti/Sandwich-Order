@@ -1,17 +1,17 @@
 import { html, PolymerElement } from '@polymer/polymer/polymer-element.js';
 import '@polymer/paper-radio-button/paper-radio-button.js';
 import '@polymer/paper-radio-group/paper-radio-group.js';
-import './shared-component/smart-accordion.js';
+import './smart-accordian.js';
 import '@polymer/paper-input/paper-input.js';
 import '@polymer/iron-icon/iron-icon.js';
 import '@polymer/iron-icons/iron-icons.js';
-import './ajax-call.js';
+
 
 /**
 * @customElement
 * @polymer
 */
-class EasePayments extends PolymerElement {
+class PaymentPage extends PolymerElement {
   static get template() {
     return html`
 <style>
@@ -242,4 +242,4 @@ right:5%;
   }
 }
 
-window.customElements.define('ease-payments', EasePayments);
+window.customElements.define('payment-page', PaymentPage);

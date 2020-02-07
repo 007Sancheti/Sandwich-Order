@@ -12,7 +12,7 @@ class AjaxCall extends PolymerElement {
           display: block;
         }
       </style>
-    <iron-ajax id="ajax" on-response="_handleResponse" handle-as="json" content-type="application/json"> </iron-ajax>
+    <iron-ajax id="ajax" on-response="_handleResponse" on-error="_handleError" handle-as="json" content-type="application/json"> </iron-ajax>
     `;
   }
   static get properties() {
@@ -50,20 +50,24 @@ class AjaxCall extends PolymerElement {
  */
   _handleResponse(event) {
     const data = event.detail.response
-    console.log(event.detail.response)
+    console.log(data)
     //All the response has been handled through switch case by dispatching event details to the parent
     switch (this.action) {
-      case 'search': this.dispatchEvent(new CustomEvent('search-flights', { bubbles: true, composed: true, detail: { data } }))
-        break;
-      case 'filter': this.dispatchEvent(new CustomEvent('filter-flights', { bubbles: true, composed: true, detail: { data } }))
-        break;
-      case 'booking-confirmed': this.dispatchEvent(new CustomEvent('booking-confirmed', { bubbles: true, composed: true, detail: { data } }))
-        break;
-      case 'myBookings': this.dispatchEvent(new CustomEvent('myBookings', { bubbles: true, composed: true, detail: { data } }))
-        break;
+      case 'login': this.dispatchEvent(new CustomEvent('login-status', { bubbles: true, composed: true, detail: { data } }))
+      break;
+      case 'review': this.dispatchEvent(new CustomEvent('review-orders', { bubbles: true, composed: true, detail: { data } }))
+      break;
       default:
 
     }
   }
+  _handleError(event) {
+    const data = event.detail.request.response;
+    console.log(data)
+    switch (this.action) {
+      case 'login': this.dispatchEvent(new CustomEvent('login-status', { bubbles: true, composed: true, detail: { data } }))
+      break;
+  }
+}
 }
 window.customElements.define('ajax-call', AjaxCall);

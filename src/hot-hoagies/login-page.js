@@ -1,5 +1,10 @@
 import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
-
+import '@polymer/paper-button/paper-button.js';
+import '@polymer/paper-input/paper-input.js';
+import '@polymer/paper-toast/paper-toast.js';
+import '@polymer/iron-form/iron-form.js';
+import './ajax-call';
+import '@polymer/app-route/app-location.js';
 /**
  * @customElement
  * @polymer
@@ -34,7 +39,6 @@ class LoginPage extends PolymerElement {
   <iron-form>
   <form class="form">
   <paper-input id="mobileNo" label="Mobile Number"></paper-input>
-  <paper-input id="password" label="Password"></paper-input>
   <span>
   <paper-button on-click="_signIn" raised id="loginBtn">LogIn</paper-button></span>
   </form>
@@ -54,32 +58,35 @@ class LoginPage extends PolymerElement {
     super.ready();
     this.addEventListener('login-status', (e) => this._loginStatus(e))
   }
-  _signIn(event)
-  {
+  _signIn(event){
+  const mobileNo=this.$.mobileNo.value;
+   if(mobileNo.length==10){
     const mobileNumber = this.$.mobileNo.value;
-    const password = this.$.password.value;
-    const postObj={mobileNumber,password}
-    this.$.ajax._makeAjaxCall('post',`http://10.117.189.208:8085/foodplex/users`,postObj,'login')  
-    
+    let postObj={mobileNumber}
+     this.$.ajax._makeAjaxCall('post',`http://10.117.189.28:8085/hothoagies/login`,postObj,'login')  
+    }
+    else{
+      alert('enter valid mobile no.')
+    }
   } 
   _loginStatus(event)
   {
     const data=event.detail.data;
     this.message=`${data.message}`
-    this.$.toast.open();
+      this.$.toast.open();
       sessionStorage.setItem('userId',data.userId)
-      if(data.role=='USER')
+      if(data.role=='CUSTOMER')
       this.set('route.path','./user-home')
-      else if(data.role=='VENDOR')
-      this.set('route.path','./vendor-home')
+      else if(data.role=='STAFF')
+      this.set('route.path','./staff-home')
   }
   connectedCallback(){
     super.connectedCallback();
     let currentImage = 0;
     let images = [
-      "url(../../../images/carousal2.jpg)",
-      "url(../../../images/login.jpg)",
-      "url(../../../images/carousal3.jpg)"
+      "url(../../images/carousal2.jpg)",
+      "url(../../images/carousal1.jfif)",
+      "url(../../images/carousal3.jpg)"
     ];
     let nextImage = () => {
       currentImage = (currentImage + 1) % images.length;
