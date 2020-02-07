@@ -7,7 +7,6 @@ import '@polymer/iron-icon/iron-icon.js';
 import '@polymer/paper-tabs/paper-tabs.js';
 import '@polymer/paper-tabs/paper-tab.js';
 import '@polymer/polymer/lib/elements/dom-repeat.js';
-import '@polymer/paper-spinner/paper-spinner.js';
 import '@polymer/app-route/app-location.js';
 import './ajax-call.js';
 /**
@@ -64,7 +63,7 @@ class UserHome extends PolymerElement {
       </div>
       <div class="card-actions">
       <paper-icon-button id="removeBtn" on-click="_handleRemove" icon="remove"></paper-icon-button>
-      <span id="quantity{{list.itemId}}">0</span>
+      <span id="quantity{{list.foodItemName}}">0</span>
       <paper-icon-button id="addBtn" on-click="_handleAdd" icon="add"></paper-icon-button>
       </div>
     </paper-card>
@@ -97,27 +96,7 @@ class UserHome extends PolymerElement {
         value: 'hot-hoagies'
       },
       preferences: {
-        type: Object,
-        value: {
-          details: [{
-            categoryId: 1,
-            categoryName: "Veg-Pizza",
-            items: [{
-              itemId: 7,
-              ItemName: "margherita pizza"
-            },
-            {
-              itemId: 9,
-              ItemName: "classic pizza"
-            }]
-          }],
-          statusCode: 200,
-          message: "abhinav"
-        }
-      },
-      categoryItems:{
-        type:Array,
-        value:[]
+        type: Array
       },
       categories: {
         type: Array,
@@ -173,7 +152,7 @@ class UserHome extends PolymerElement {
    */
   connectedCallback() {
     super.connectedCallback();
-    window.setTimeout(()=>{this.$.ajax._makeAjaxCall('get', `http://10.117.189.28:8085/hothoagies/users/${sessionStorage.getItem('userId')}/preference`, null, 'preferencesList')},1000)
+    window.setTimeout(()=>{this.$.ajax._makeAjaxCall('get', `http://10.117.189.28:8085/hothoagies/users/${sessionStorage.getItem('userId')}/preference`, null, 'preferencesList')},0)
     this.$.ajax._makeAjaxCall('get', `http://10.117.189.28:8085/hothoagies/categories`, null, 'categoriesList');
     // var preferenceList = new Promise((resolve, reject) => {
     //   resolve(this.$.ajax._makeAjaxCall('get', `http://10.117.189.28:8085/hothoagies/users/${sessionStorage.getItem('userId')}/preference`, null, 'preferencesList'));
@@ -208,11 +187,11 @@ class UserHome extends PolymerElement {
    * @param {clickEvent} event Adding the quantity whenever the add button is pressed
    */
   _handleAdd(event) {
-    console.log(event.model.item.foodItemId)
+    console.log(event.model.list)
     let itemId;
     if(event.model.list)
     {
-     itemId = event.model.list.itemId;
+     itemId = event.model.list.foodItemId;
     }
     else
     {
