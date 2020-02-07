@@ -55,6 +55,10 @@ class OrderCheckout extends PolymerElement {
       reviewOrders:{
         type:Array,
         value:[{items: [{ itemId:'123', quantity:'234'},{ itemId:'003', quantity:'23'}],cartId:'123456', totalPrice:'2000'}]
+      },
+      postObj:{
+        type:Object,
+        value:{}
       }
     };
   }
@@ -73,7 +77,10 @@ class OrderCheckout extends PolymerElement {
   connectedCallback()
   {  const myCart= JSON.parse(sessionStorage.getItem('myCart'));
     super.connectedCallback();
-    this.$.ajax._makeAjaxCall('get',`http://10.117.189.245:8085/hothoagies/users/${sessionStorage.getItem('userId')}/carts`,myCart,'review')  
+    console.log(myCart)
+    this.postObj.items=myCart
+    console.log(this.postObj)
+    this.$.ajax._makeAjaxCall('get',`http://10.117.189.245:8085/hothoagies/users/${sessionStorage.getItem('userId')}/carts`,this.postObj,'review')  
   }
   /**
    * 

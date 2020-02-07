@@ -41,6 +41,7 @@ class UserOrders extends PolymerElement {
         </li>
         <li>Quantity:{{item.quantity}}</li>
         </ul>
+        </template>
         </paper-card>
     `;
   }
