@@ -46,6 +46,7 @@ class UserHome extends PolymerElement {
             width:350px;
             margin-right:20px;
             margin-left:20px;
+        }
         #view-cart
         {
           margin-top:10px;
@@ -59,6 +60,7 @@ class UserHome extends PolymerElement {
       </style>
       <h2>Frequently Ordered Items</h2>
       <ajax-call id="ajax"></ajax-call>
+      <app-location route={{route}}></app-location>
       <template is="dom-repeat" items={{preferences}} as="list">
     <paper-card elevation="2" animated-shadow="false">
       <div class="card-content">
