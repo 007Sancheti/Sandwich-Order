@@ -73,7 +73,7 @@ class OrderCheckout extends PolymerElement {
   connectedCallback()
   {  const myCart= JSON.parse(sessionStorage.getItem('myCart'));
     super.connectedCallback();
-    // this.$.ajax._makeAjaxCall('get',`http://10.117.189.208:8085/foodplex/users/${myCart}/vendororders`,null,'review')  
+    this.$.ajax._makeAjaxCall('get',`http://10.117.189.245:8085/hothoagies/users/${sessionStorage.getItem('userId')}/carts`,myCart,'review')  
   }
   /**
    * 
