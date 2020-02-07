@@ -23,6 +23,7 @@ class UserHome extends PolymerElement {
         #items
         {
           width:100%;
+          margin-top:10px;
         }
         paper-card ul
         {
@@ -33,7 +34,7 @@ class UserHome extends PolymerElement {
         }
         paper-card ul li
         {
-          width:120px;
+          width:200px;
         }
         paper-tabs
         {
@@ -65,7 +66,7 @@ class UserHome extends PolymerElement {
 </paper-tabs>
 <template is="dom-repeat" items={{categoryItems}}>
 <paper-card id="items">
-<ul><li>item:{{item.foodItemName}}</li>
+<ul><li>{{item.foodItemName}}</li>
 <li>Price:{{item.price}}</li>
 <li><paper-icon-button id="removeBtn" on-click="_handleRemove" icon="remove"></paper-icon-button>
 <span id="quantity{{item.foodItemId}}">0</span>
