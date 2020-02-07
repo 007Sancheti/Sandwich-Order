@@ -51,6 +51,8 @@ class AjaxCall extends PolymerElement {
       break;
       case 'categoriesList': this.dispatchEvent(new CustomEvent('category-list', { bubbles: true, composed: true, detail: { data } }))
         break;
+      case 'fetchItems': this.dispatchEvent(new CustomEvent('fetch-items', { bubbles: true, composed: true, detail: { data } }))
+        break;
       default:
     }
   }

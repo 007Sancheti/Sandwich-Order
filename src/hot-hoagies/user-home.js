@@ -20,6 +20,26 @@ class UserHome extends PolymerElement {
         :host {
           display: block;
         }
+        #items
+        {
+          width:100%;
+        }
+        paper-card ul
+        {
+          display:flex;
+          justify-content:space-between;
+          align-items:center;
+          list-style:none;
+        }
+        paper-card ul li
+        {
+          width:120px;
+        }
+        paper-tabs
+        {
+          --paper-tab-ink:blue;
+          --paper-tabs-selection-bar-color:blue;
+        }
       </style>
       <h2>Hello [[prop1]]!</h2>
       <ajax-call id="ajax"></ajax-call>
@@ -43,12 +63,12 @@ class UserHome extends PolymerElement {
       <paper-tab on-click="_filterCategory"> {{item.categoryName}}</paper-tab>
     </template>
 </paper-tabs>
-<template is="dom-repeat" items={{availableItems}}>
-<paper-card>
-<ul><li>item:{{item.itemName}}</li>
-<li>Price:{{item.itemPrice}}</li>
+<template is="dom-repeat" items={{categoryItems}}>
+<paper-card id="items">
+<ul><li>item:{{item.foodItemName}}</li>
+<li>Price:{{item.price}}</li>
 <li><paper-icon-button id="removeBtn" on-click="_handleRemove" icon="remove"></paper-icon-button>
-<span id="quantity{{item.itemId}}">0</span>
+<span id="quantity{{item.foodItemId}}">0</span>
 <paper-icon-button id="addBtn" on-click="_handleAdd" icon="add"></paper-icon-button></li>
 </ul>
 </paper-card>
@@ -68,17 +88,21 @@ class UserHome extends PolymerElement {
             categoryId: 1,
             categoryName: "Veg-Pizza",
             items: [{
-              itemId: 1,
+              itemId: 7,
               ItemName: "margherita pizza"
             },
             {
-              itemId: 2,
+              itemId: 9,
               ItemName: "classic pizza"
             }]
           }],
           statusCode: 200,
           message: "abhinav"
         }
+      },
+      categoryItems:{
+        type:Array,
+        value:[]
       },
       categories: {
         type: Array,
@@ -115,7 +139,7 @@ class UserHome extends PolymerElement {
         type: Array,
         value: [{
           itemId: 1,
-          quantity: 1
+          quantity: 0
         }]
       }
     };
@@ -126,6 +150,7 @@ class UserHome extends PolymerElement {
   ready() {
     super.ready();
     this.addEventListener('category-list', (e) => this._fetchingCategories(e))
+    this.addEventListener('fetch-items', (e) => this._fetchingItems(e))
   }
       /**
    * call the API to fetch the data to render it on the screen
@@ -145,14 +170,27 @@ class UserHome extends PolymerElement {
    */
   _filterCategory(event) {
     let categoryId = event.model.item.categoryId;
-    // this.$.ajax._makeAjaxCall('get',`http://10.117.189.28:8085/hothoagies/categories/${categoryId}/items`,null,'fetchItems')
+    this.$.ajax._makeAjaxCall('get',`http://10.117.189.28:8085/hothoagies/categories/${categoryId}/fooditems`,null,'fetchItems')
+  }
+  _fetchingItems(event) {
+    console.log(event.detail.data)
+    this.categoryItems=event.detail.data.foodItemList
   }
   /**
    * @param {clickEvent} event Adding the quantity whenever the add button is pressed
    */
   _handleAdd(event) {
-    let itemId = event.model.list.itemId;
-    let quantity = `quantity${event.model.list.itemId}`
+    console.log(event.model.item.foodItemId)
+    let itemId;
+    if(event.model.list)
+    {
+     itemId = event.model.list.itemId;
+    }
+    else
+    {
+     itemId = event.model.item.foodItemId;
+    }
+    let quantity = `quantity${itemId}`
     let span = this.shadowRoot.querySelector(`#${quantity}`)
     span.innerHTML = parseInt(span.innerHTML) + 1
     let obj = this.cart.find(item => {
@@ -177,8 +215,15 @@ class UserHome extends PolymerElement {
    * @param {clickEvent} event Subtracting the quantity whenever the add button is pressed
    */
   _handleRemove(event) {
-    let itemId = event.model.list.itemId;
-    let quantity = `quantity${event.model.list.itemId}`
+    console.log(event.model.item.foodItemId)
+    let itemId;
+    if(event.model.list)
+    {itemId = event.model.list.itemId;}
+    else
+    {
+      itemId = event.model.item.foodItemId;
+    }
+    let quantity = `quantity${itemId}`
     let span = this.shadowRoot.querySelector(`#${quantity}`)
     if (span.innerHTML != 0) {
       span.innerHTML = parseInt(span.innerHTML) - 1
@@ -202,7 +247,7 @@ class UserHome extends PolymerElement {
         });
       }
       else {
-        let pushObj = { itemId: itemId, quantity: 1 }
+        let pushObj = { itemId, quantity: 1 }
         this.cart.push(pushObj)
       }
     }
