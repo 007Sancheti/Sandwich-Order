@@ -1,0 +1,7 @@
+{
+  "name": "hot-hoagies",
+  "short_name": "hot-hoagies",
+  "description": "sandwich order",
+  "start_url": "/",
+  "display": "standalone"
+}
