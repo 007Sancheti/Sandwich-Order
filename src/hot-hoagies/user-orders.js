@@ -41,7 +41,6 @@ class UserOrders extends PolymerElement {
         </li>
         <li>Quantity:{{item.quantity}}</li>
         </ul>
-        </template>
         </paper-card>
     `;
   }
@@ -50,7 +49,7 @@ class UserOrders extends PolymerElement {
       myOrders:{
         type:Array,
         value:[{orderId:'123', orderDate:'234'}]
-      }
+      },
     };
   }
    /**
@@ -67,7 +66,8 @@ class UserOrders extends PolymerElement {
   connectedCallback()
   {
     super.connectedCallback();
-    // this.$.ajax._makeAjaxCall('get',`http://10.117.189.208:8085/foodplex/users/${sessionStorage.getItem('userId')}/vendororders`,null,'myOrders')  
+    this.postObj.items= JSON.parse(sessionStorage.setItem('myCart'))
+  this.$.ajax._makeAjaxCall('get',`http://10.117.189.245:8085/hothoagies/users/${sessionStorage.getItem('userId')}/carts`,this.postObj,'myOrders')  
   }
   /**
    * 
