@@ -177,9 +177,7 @@ class HotHoagies extends PolymerElement {
       break;
   }
 }
-/**A simple observer triggers only any changes happens to the properties defined. 
-* Hence a complex observer is required to trigger any changes happens to app (including page load).
-* Hence complex triggers is required to define to observe changes on first time page load.
+/** Hence complex triggers is required to define to observe changes on first time page load.
 **/
 static get observers() {
   return ['_routerChanged(routeData.page)']
@@ -199,7 +197,6 @@ _routerChanged(page) {
 **/
 onLayoutChange(wide) {
   var drawer = this.$.drawer;
-
   if (wide && drawer.opened) {
     drawer.opened = false;
   }

@@ -56,6 +56,9 @@ class SmartAccordion extends PolymerElement {
         opened: Boolean
     }
 }
+/**
+ * changing the value for the opened variable whenever the accordian button is clicked
+ */
 _collapse() {
     let acc = this.shadowRoot.querySelector('.accordion');
     acc.classList.toggle("active");
