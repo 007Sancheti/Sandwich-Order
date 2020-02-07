@@ -7,7 +7,7 @@ import '@polymer/iron-icon/iron-icon.js';
 import '@polymer/paper-tabs/paper-tabs.js';
 import '@polymer/paper-tabs/paper-tab.js';
 import '@polymer/polymer/lib/elements/dom-repeat.js';
-import '@polymer/paper-spinner/paper-spinner.js';
+import '@polymer/app-route/app-location.js';
 import './ajax-call.js';
 /**
  * @customElement
@@ -23,6 +23,7 @@ class UserHome extends PolymerElement {
         #items
         {
           width:100%;
+          margin-top:10px;
         }
         paper-card ul
         {
@@ -33,7 +34,7 @@ class UserHome extends PolymerElement {
         }
         paper-card ul li
         {
-          width:120px;
+          width:200px;
         }
         paper-tabs
         {
@@ -45,20 +46,35 @@ class UserHome extends PolymerElement {
             width:350px;
             margin-right:20px;
             margin-left:20px;
+        #view-cart
+        {
+          margin-top:10px;
+          text-align:center;
+        }
+        #cart-btn
+        {
+          background: blue;
+          color:white;
         }
       </style>
-      <h2>Hello [[prop1]]!</h2>
+      <h2>Frequently Ordered Items</h2>
       <ajax-call id="ajax"></ajax-call>
+<<<<<<< HEAD
       <template is="dom-repeat" items={{preferences.details}}>
       <template is="dom-repeat" items={{item.items}} as="list">
     <paper-card elevation="2" animated-shadow="false" image="../../images/carousal2.jpg">
+=======
+      <app-location route={{route}}></app-location>
+      <template is="dom-repeat" items={{preferences}} as="list">
+    <paper-card elevation="2" animated-shadow="false">
+>>>>>>> 5e537610b0359621d3bed891f2f2f63a27ef1b4f
       <div class="card-content">
-        <p>Name: {{list.ItemName}}</p>
-        <p>Category: {{item.categoryName}}</p>
+        <p>Name: {{list.foodItemName}}</p>
+        <p>Category: {{list.categoryName}}</p>
       </div>
       <div class="card-actions">
       <paper-icon-button id="removeBtn" on-click="_handleRemove" icon="remove"></paper-icon-button>
-      <span id="quantity{{list.itemId}}">0</span>
+      <span id="quantity{{list.foodItemName}}">0</span>
       <paper-icon-button id="addBtn" on-click="_handleAdd" icon="add"></paper-icon-button>
       </div>
     </paper-card>
@@ -70,8 +86,13 @@ class UserHome extends PolymerElement {
     </template>
 </paper-tabs>
 <template is="dom-repeat" items={{categoryItems}}>
+<<<<<<< HEAD
 <paper-card id="items" image="../../images/carousal1.jpg">
 <ul><li>item:{{item.foodItemName}}</li>
+=======
+<paper-card id="items">
+<ul><li>{{item.foodItemName}}</li>
+>>>>>>> 5e537610b0359621d3bed891f2f2f63a27ef1b4f
 <li>Price:{{item.price}}</li>
 <li><paper-icon-button id="removeBtn" on-click="_handleRemove" icon="remove"></paper-icon-button>
 <span id="quantity{{item.foodItemId}}">0</span>
@@ -79,6 +100,9 @@ class UserHome extends PolymerElement {
 </ul>
 </paper-card>
 </template>
+<div id="view-cart">
+<paper-button raised id="cart-btn" on-click="_showCart">VIEW CART</paper-button>
+</div>
     `;
   }
   static get properties() {
@@ -88,27 +112,7 @@ class UserHome extends PolymerElement {
         value: 'hot-hoagies'
       },
       preferences: {
-        type: Object,
-        value: {
-          details: [{
-            categoryId: 1,
-            categoryName: "Veg-Pizza",
-            items: [{
-              itemId: 7,
-              ItemName: "margherita pizza"
-            },
-            {
-              itemId: 9,
-              ItemName: "classic pizza"
-            }]
-          }],
-          statusCode: 200,
-          message: "abhinav"
-        }
-      },
-      categoryItems:{
-        type:Array,
-        value:[]
+        type: Array
       },
       categories: {
         type: Array,
@@ -157,13 +161,26 @@ class UserHome extends PolymerElement {
     super.ready();
     this.addEventListener('category-list', (e) => this._fetchingCategories(e))
     this.addEventListener('fetch-items', (e) => this._fetchingItems(e))
+    this.addEventListener('preference-list', (e) => this._preferences(e))
   }
       /**
    * call the API to fetch the data to render it on the screen
    */
   connectedCallback() {
     super.connectedCallback();
-    this.$.ajax._makeAjaxCall('get', `http://10.117.189.245:8085/hothoagies/categories`, null, 'categoriesList')
+    window.setTimeout(()=>{this.$.ajax._makeAjaxCall('get', `http://10.117.189.28:8085/hothoagies/users/${sessionStorage.getItem('userId')}/preference`, null, 'preferencesList')},0)
+    this.$.ajax._makeAjaxCall('get', `http://10.117.189.28:8085/hothoagies/categories`, null, 'categoriesList');
+    // var preferenceList = new Promise((resolve, reject) => {
+    //   resolve(this.$.ajax._makeAjaxCall('get', `http://10.117.189.28:8085/hothoagies/users/${sessionStorage.getItem('userId')}/preference`, null, 'preferencesList'));
+      
+    // });
+    
+    // preferenceList.then(value => {
+    //   console.log(value); 
+    //   this.$.ajax._makeAjaxCall('get', `http://10.117.189.28:8085/hothoagies/categories`, null, 'categoriesList');
+    // }, reason => {
+    //   console.error(reason); 
+    // });
   }
    /**
    * @param {customEvent} event provide the data for dom-repeat to show the details of categories
@@ -186,11 +203,11 @@ class UserHome extends PolymerElement {
    * @param {clickEvent} event Adding the quantity whenever the add button is pressed
    */
   _handleAdd(event) {
-    console.log(event.model.item.foodItemId)
+    console.log(event.model.list)
     let itemId;
     if(event.model.list)
     {
-     itemId = event.model.list.itemId;
+     itemId = event.model.list.foodItemId;
     }
     else
     {
@@ -258,6 +275,15 @@ class UserHome extends PolymerElement {
       }
     }
     sessionStorage.setItem('myCart', JSON.stringify(this.cart))
+  }
+  _showCart()
+  {
+    console.log("here")
+    this.set('route.path','./checkout')
+  }
+  _preferences(event){
+    console.log(event.detail.data.preferenceList)
+    this.preferences=event.detail.data.preferenceList
   }
 }
 

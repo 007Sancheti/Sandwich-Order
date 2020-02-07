@@ -1,7 +1,50 @@
 {
+  "entrypoint": "index.html",
+  "shell": "src/hot-hoagies/hot-hoagies.js",
+  "fragments": [
+    "src/hot-hoagies/login-page.js",
+    "src/hot-hoagies/error-view.js",
+    "src/hot-hoagies/ajax-call.js",
+    "src/hot-hoagies/order-checkout.js",
+    "src/hot-hoagies/order-summary.js",
+    "src/hot-hoagies/payment-page.js",
+    "src/hot-hoagies/smart-accordion.js",
+    "src/hot-hoagies/staff-orders.js",
+    "src/hot-hoagies/user-home.js",
+    "src/hot-hoagies/user-orders.js",
+    "src/hot-hoagies/shared-styles.js"
+  ],
+  "sources": [
+   "src/**/*",
+   "manifest/**",
+   "images/**/*",
+   "package.json"
+  ],
+  "extraDependencies": [
+    "manifest.json",
+    "node_modules/@webcomponents/webcomponentsjs/**"
+  ],
+  "moduleResolution": "node",
   "npm": true,
-  "lint": {
-    "rules": [
+  "builds": [
+    { 
+      "name": "es5prod",
+      "preset": "es5-bundled",
+      "addServiceWorker": true
+    },
+    { 
+      "name": "es6prod",
+      "preset": "es6-unbundled",
+      "addServiceWorker": true
+    },
+    { 
+      "name": "es6-bundled",
+      "preset": "es6-bundled",
+      "addServiceWorker": true
+    }
+  ],
+  "lint":{
+    "rules":[
       "polymer-3"
     ]
   }
