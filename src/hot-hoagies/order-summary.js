@@ -1,5 +1,7 @@
 import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
-
+import '@polymer/paper-card/paper-card.js';
+import './ajax-call.js';
+import '@polymer/polymer/lib/elements/dom-repeat.js';
 /**
  * @customElement
  * @polymer
@@ -18,31 +20,32 @@ class OrderSummary extends PolymerElement {
         margin-left:20px;
     }
   </style>
-  <h2>Hello [[prop1]]!</h2>
   <ajax-call id="ajax"></ajax-call>
   <h1>Order Summary</h1>
-  <template is="dom-repeat" items={{myOrders}}>
-    <paper-card>
+    <paper-card image="../../images/carousal3.jpg">
     <ul>
+    {{item}}
+    <li>OrderId:{{myOrders.orderDetailId}}</li>
+    <li>Price:{{myOrders.totalPrice}}</li>
+    <li>Status:{{myOrders.orderStatus}}</li>
+    <li>Time:{{myOrders.orderTime}}</li>
     <li>Items:
-    <template is="dom-repeat" items={{item.items}} as="order">
-    <ul>Item Name:{{order.itemName}}  
-    Quantity:{{order.quantity}}
+    <template is="dom-repeat" items={{myOrders.cartItems}} as="order">
+    <ul>
+    <li>Item Name:{{order.item.itemName}} </li>
+    <li>Quantity:{{order.quantity}}</li>
+    <li>ItemPrice:{{order.price}}</li>
     </ul>
     </template>
     </li>
-    <li>OrderId:{{item.cartId}}</li>
-    <li>Price:{{item.totalPrice}}</li>
     </ul>
     </paper-card>
-    </template>
     `;
   }
   static get properties() {
     return {
-      prop1: {
-        type: String,
-        value: 'order-summary'
+      myOrders:{
+        type:Object,
       }
     };
   }
@@ -60,14 +63,14 @@ class OrderSummary extends PolymerElement {
   connectedCallback()
   {
     super.connectedCallback();
-    // this.$.ajax._makeAjaxCall('get',`http://10.117.189.208:8085/foodplex/users/${sessionStorage.getItem('userId')}/vendororders`,null,'myOrders')  
+    this.$.ajax._makeAjaxCall('get',`http://10.117.189.208:8085/hothoagies/orders/${sessionStorage.getItem('orderId')}`,null,'myOrders')  
   }
    /**
    * 
    * @param {customEvent} event provide the data for dom-repeat to show the details of order
    */
   _gettingOrders(event){  
-      this.myOrders=event.detail.data.orders
+      this.myOrders=event.detail.data
   }
 }
 

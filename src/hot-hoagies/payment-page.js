@@ -7,6 +7,9 @@ import '@polymer/paper-button/paper-button.js';
 import '@polymer/iron-icon/iron-icon.js';
 import '@polymer/iron-icons/iron-icons.js';
 import './ajax-call.js';
+import '@polymer/paper-dialog/paper-dialog.js';
+import '@polymer/app-route/app-location.js';
+
 /**
  * @customElement
  * @polymer
@@ -122,7 +125,10 @@ class PaymentPage extends PolymerElement {
       text-decoration: none;
       color: #fff;
   }
-   
+  paper-dialog{
+    height:100px;
+    width:300px;
+  }
   paper-input
   {
     width:300px;
@@ -137,6 +143,7 @@ class PaymentPage extends PolymerElement {
     color: whitesmoke;
   }
   </style>
+  <app-location route={{route}}></app-location>
   <ajax-call id="ajax"></ajax-call>
   <smart-accordion>
     <div slot="summary">Credit Card/Debit Card</div>
@@ -213,6 +220,10 @@ class PaymentPage extends PolymerElement {
   </paper-radio-group>
   <paper-button type="submit" on-click="_handleSubmit" class="wallet-btn" raised>Proceed</paper-button>
   </smart-accordion>
+  <paper-dialog id="modal">
+  <span>Your order is confirmed with OrderID {{orderId}} and will be delivered in{{eta}}</span>
+  <paper-button dialog-dismiss>ok</paper-button>
+</paper-dialog>
     `;
   }
   static get properties() {
@@ -221,27 +232,28 @@ class PaymentPage extends PolymerElement {
         type: String,
         value: 'payment-page'
       },
-    postObj:Object
+    postObj:Object,
+    orderId:Number,
+    eta:String
     };
   }
   _handleSubmit(){
     const upiId=this.$.upiId.value;
     const paymentMode=this.$.payment.selected;
     this.postObj={upiId,paymentMode}
-    let orderList=[]
-    orderList.push(JSON.parse(sessionStorage.getItem('orderDetailsObj')));
-    this.postObj.orderList=orderList;
     console.log(this.postObj);
-    // this.$.ajax._makeAjaxCall('post',`http://10.117.189.208:8085/foodplex/users/${sessionStorage.getItem('userId')}/order`,this.postObj,'payments')  
-
+    this.$.ajax._makeAjaxCall('post',`http://10.117.189.208:8085/hothoagies/users/${sessionStorage.getItem('userId')}/order`,this.postObj,'payments')  
+    this.set('route.path','/order-summary')
   }
   ready() {
     super.ready();
     this.addEventListener('payments-page', (e) => this._payments(e))
   }
   _payments(event){
-     let order=event.model.data
-    alert(`Your order of ${order.totalPrice} is confirmed with OrderID ${order.orderDetailId}`)
+     this.orderId=event.detail.data.orderId;
+     sessionStorage.setItem('orderId',this.orderId)
+     this.eta=event.detail.data.eta;
+     this.$.modal.open();
   }
 }
 

@@ -19,18 +19,21 @@ class UserOrders extends PolymerElement {
             margin-right:20px;
             margin-left:20px;
         }
+        span{
+          display:flex;
+          justify-content: center;
+        }
       </style>
-      <h2>Hello [[prop1]]!</h2>
       <ajax-call id="ajax"></ajax-call>
-      <h1>Review your Orders</h1>
+      <span><h2>Past Orders</h2></span>
       <template is="dom-repeat" items={{myOrders}}>
-        <paper-card>
+        <paper-card image="../../images/carousal3.jpg">
         <ul>
-        <li>OrderId:{{item.orderDetailId}}</li>
+        <li>OrderId:{{item.orderId}}</li>
         <li>Price:{{item.totalPrice}}</li>
-        <li>Quantity:{{item.quantity}}</li>
+        <li>Date:{{item.orderDate}}</li>
         <li>PaymentMode:{{item.paymentMode}}</li>
-        <li>Status:{{item.status}}</li>
+        <li>Status:{{item.orderStatus}}</li>
         <li>Items:
         <template is="dom-repeat" items={{item.orderItems}} as="order">
         {{order.vendorItem.item.itemName}},
@@ -43,14 +46,10 @@ class UserOrders extends PolymerElement {
   }
   static get properties() {
     return {
-      prop1: {
-        type: String,
-        value: 'user-orders'
-      },
       myOrders:{
         type:Array,
-         value:[]
-      },
+        value:[{orderId:'123', orderDate:'234'}]
+      }
     };
   }
    /**

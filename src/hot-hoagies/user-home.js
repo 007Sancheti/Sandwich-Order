@@ -40,12 +40,18 @@ class UserHome extends PolymerElement {
           --paper-tab-ink:blue;
           --paper-tabs-selection-bar-color:blue;
         }
+        paper-card
+        {
+            width:350px;
+            margin-right:20px;
+            margin-left:20px;
+        }
       </style>
       <h2>Hello [[prop1]]!</h2>
       <ajax-call id="ajax"></ajax-call>
       <template is="dom-repeat" items={{preferences.details}}>
       <template is="dom-repeat" items={{item.items}} as="list">
-    <paper-card elevation="2" animated-shadow="false">
+    <paper-card elevation="2" animated-shadow="false" image="../../images/carousal2.jpg">
       <div class="card-content">
         <p>Name: {{list.ItemName}}</p>
         <p>Category: {{item.categoryName}}</p>
@@ -64,7 +70,7 @@ class UserHome extends PolymerElement {
     </template>
 </paper-tabs>
 <template is="dom-repeat" items={{categoryItems}}>
-<paper-card id="items">
+<paper-card id="items" image="../../images/carousal1.jpg">
 <ul><li>item:{{item.foodItemName}}</li>
 <li>Price:{{item.price}}</li>
 <li><paper-icon-button id="removeBtn" on-click="_handleRemove" icon="remove"></paper-icon-button>
