@@ -59,10 +59,6 @@ class UserHome extends PolymerElement {
       </style>
       <h2>Frequently Ordered Items</h2>
       <ajax-call id="ajax"></ajax-call>
-      <template is="dom-repeat" items={{preferences.details}}>
-      <template is="dom-repeat" items={{item.items}} as="list">
-    <paper-card elevation="2" animated-shadow="false" image="../../images/carousal2.jpg">
-      <app-location route={{route}}></app-location>
       <template is="dom-repeat" items={{preferences}} as="list">
     <paper-card elevation="2" animated-shadow="false">
       <div class="card-content">
@@ -76,14 +72,13 @@ class UserHome extends PolymerElement {
       </div>
     </paper-card>
     </template>
-    </template>
     <paper-tabs selected="{{selected}}" scrollable>
     <template is="dom-repeat" items={{categories}}>
       <paper-tab on-click="_filterCategory"> {{item.categoryName}}</paper-tab>
     </template>
 </paper-tabs>
 <template is="dom-repeat" items={{categoryItems}}>
-<paper-card id="items" image="../../images/carousal1.jpg">
+<paper-card id="items">
 <ul><li>item:{{item.foodItemName}}</li>
 <li>Price:{{item.price}}</li>
 <li><paper-icon-button id="removeBtn" on-click="_handleRemove" icon="remove"></paper-icon-button>
