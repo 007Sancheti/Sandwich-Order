@@ -21,20 +21,12 @@ class AjaxCall extends PolymerElement {
     };
   }
   /**
-   * @description: ???
-   * @author: ???
+   * @description:handle diferent  ajax calls  
   *@param {String} url url of specific location
   *@param {String} method method type:get/put/post/delete
-  *@param {Object{}|Null} postObj needs object as value for put/post and null for get/delete
+  *@param {Object} postObj needs object as value for put/post and null for get/delete
   *@param {Boolean} sync true for synchronization and false for asynchronization
   **/
- /**
-  * 
-  * @param {*} method 
-  * @param {*} url 
-  * @param {*} obj 
-  * @param {*} action 
-  */
   _makeAjaxCall(method, url, obj, action) {
     const ajax = this.$.ajax
     this.action = action
@@ -65,6 +57,7 @@ class AjaxCall extends PolymerElement {
     }
   }
   _handleError(event) {
+    //All the response has been handled through switch case by dispatching event details to the parent
     const data = event.detail.request.response;
     console.log(data)
     switch (this.action) {

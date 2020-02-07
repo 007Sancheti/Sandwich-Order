@@ -52,16 +52,27 @@ class OrderCheckout extends PolymerElement {
       }
     };
   }
+   /**
+   * listening customEvents sent from child elements
+   */
   ready()
   {
     super.ready();
     this.addEventListener('review-orders', (e) => this._gettingOrders(e))
   }
+  /**
+   * get the object from session storage 
+   * call the API to fetch the data to render it on the screen
+   */
   connectedCallback()
   {  const myCart= JSON.parse(sessionStorage.getItem('myCart'));
     super.connectedCallback();
     // this.$.ajax._makeAjaxCall('get',`http://10.117.189.208:8085/foodplex/users/${myCart}/vendororders`,null,'review')  
   }
+  /**
+   * 
+   * @param {customEvent} event provide the data for dom-repeat to show the details of order
+   */
   _gettingOrders(event){  
       this.reviewOrders=event.detail.data.orders
   }

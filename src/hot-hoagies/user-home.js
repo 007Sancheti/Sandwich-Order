@@ -145,18 +145,30 @@ class UserHome extends PolymerElement {
       }
     };
   }
+    /**
+   * listening customEvents sent from child elements
+   */
   ready() {
     super.ready();
     this.addEventListener('category-list', (e) => this._fetchingCategories(e))
     this.addEventListener('fetch-items', (e) => this._fetchingItems(e))
   }
+      /**
+   * call the API to fetch the data to render it on the screen
+   */
   connectedCallback() {
     super.connectedCallback();
     this.$.ajax._makeAjaxCall('get', `http://10.117.189.245:8085/hothoagies/categories`, null, 'categoriesList')
   }
+   /**
+   * @param {customEvent} event provide the data for dom-repeat to show the details of categories
+   */
   _fetchingCategories(event) {
     this.categories = event.detail.data
   }
+   /**
+   * @param {customEvent} event provide the data for dom-repeat as the category is clicked
+   */
   _filterCategory(event) {
     let categoryId = event.model.item.categoryId;
     this.$.ajax._makeAjaxCall('get',`http://10.117.189.28:8085/hothoagies/categories/${categoryId}/fooditems`,null,'fetchItems')
@@ -165,6 +177,9 @@ class UserHome extends PolymerElement {
     console.log(event.detail.data)
     this.categoryItems=event.detail.data.foodItemList
   }
+  /**
+   * @param {clickEvent} event Adding the quantity whenever the add button is pressed
+   */
   _handleAdd(event) {
     console.log(event.model.item.foodItemId)
     let itemId;
@@ -197,6 +212,9 @@ class UserHome extends PolymerElement {
     }
     sessionStorage.setItem('myCart', JSON.stringify(this.cart))
   }
+    /**
+   * @param {clickEvent} event Subtracting the quantity whenever the add button is pressed
+   */
   _handleRemove(event) {
     console.log(event.model.item.foodItemId)
     let itemId;

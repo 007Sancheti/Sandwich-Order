@@ -46,16 +46,26 @@ class OrderSummary extends PolymerElement {
       }
     };
   }
+   /**
+   * listening customEvents sent from child elements
+   */
   ready()
   {
     super.ready();
     this.addEventListener('getting-orders', (e) => this._gettingOrders(e))
   }
+  /** 
+   * call the API to fetch the data to render it on the screen
+   */
   connectedCallback()
   {
     super.connectedCallback();
     // this.$.ajax._makeAjaxCall('get',`http://10.117.189.208:8085/foodplex/users/${sessionStorage.getItem('userId')}/vendororders`,null,'myOrders')  
   }
+   /**
+   * 
+   * @param {customEvent} event provide the data for dom-repeat to show the details of order
+   */
   _gettingOrders(event){  
       this.myOrders=event.detail.data.orders
   }

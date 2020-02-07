@@ -19,6 +19,19 @@ class LoginPage extends PolymerElement {
       overflow-y:hidden;
       background-size:cover;
     }
+    img{
+      margin-top:20px;
+      margin-bottom: 0;
+      width:150px;
+      height:50px
+    }
+    #google{
+      float: right;
+    }
+    paper-button{
+      background-color: darkblue;
+      color: whitesmoke;
+    }
     .form
     {
       background-image: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%);
@@ -38,9 +51,11 @@ class LoginPage extends PolymerElement {
   <ajax-call id="ajax"></ajax-call>
   <iron-form>
   <form class="form">
-  <paper-input id="mobileNo" label="Mobile Number"></paper-input>
+  <paper-input id="mobileNo" maxlength="10" type="text" label="Mobile Number"></paper-input>
   <span>
   <paper-button on-click="_signIn" raised id="loginBtn">LogIn</paper-button></span>
+  <img id="facebook" src="../../images/facebook.png"/>
+  <img id="google" src="../../images/google-logo.png"/>
   </form>
   </iron-form>
     `;
@@ -53,11 +68,20 @@ class LoginPage extends PolymerElement {
       }
     };
   }
+  /**
+   * listening customEvents sent from child elements
+   */
   ready()
   {
     super.ready();
     this.addEventListener('login-status', (e) => this._loginStatus(e))
   }
+  /**
+   * 
+   * @param {mouseEvent} event on SignIn click event is fired
+   * validate if mobile No. has 10 digits or not
+   * get the user details from the database
+   */
   _signIn(event){
   const mobileNo=this.$.mobileNo.value;
    if(mobileNo.length==10){
@@ -69,23 +93,34 @@ class LoginPage extends PolymerElement {
       alert('enter valid mobile no.')
     }
   } 
+  /**
+   * 
+   * @param {*} event 
+   * handles the response sent by the database
+   * transfer the user on the base of role as customer or staff to respective page
+   */
   _loginStatus(event)
   {
     const data=event.detail.data;
-    this.message=`${data.message}`
+      this.message=`${data.message}`
       this.$.toast.open();
-      sessionStorage.setItem('userId',data.userId)
+      sessionStorage.setItem('userId',data.userId);
+      if(event.detail.data.statusCode!=404){
+      sessionStorage.setItem('isLogin',true);
       if(data.role=='CUSTOMER')
       this.set('route.path','./user-home')
       else if(data.role=='STAFF')
       this.set('route.path','./staff-home')
-  }
+  }}
+  /**
+   * is handle carousel effect on the rendering of login page
+   */
   connectedCallback(){
     super.connectedCallback();
     let currentImage = 0;
     let images = [
       "url(../../images/carousal2.jpg)",
-      "url(../../images/carousal1.jfif)",
+      "url(../../images/carousal1.jpg)",
       "url(../../images/carousal3.jpg)"
     ];
     let nextImage = () => {
