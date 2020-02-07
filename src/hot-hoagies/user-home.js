@@ -67,7 +67,7 @@ class UserHome extends PolymerElement {
       </div>
       <div class="card-actions">
       <paper-icon-button id="removeBtn" on-click="_handleRemove" icon="remove"></paper-icon-button>
-      <span id="quantity{{list.foodItemName}}">0</span>
+      <span id="menu{{list.foodItemId}}">0</span>
       <paper-icon-button id="addBtn" on-click="_handleAdd" icon="add"></paper-icon-button>
       </div>
     </paper-card>
@@ -134,10 +134,7 @@ class UserHome extends PolymerElement {
       },
       cart: {
         type: Array,
-        value: [{
-          itemId: 1,
-          quantity: 0
-        }]
+        value: []
       }
     };
   }
@@ -200,9 +197,15 @@ class UserHome extends PolymerElement {
     {
      itemId = event.model.item.foodItemId;
     }
+    let menu = `menu${itemId}`
     let quantity = `quantity${itemId}`
     let span = this.shadowRoot.querySelector(`#${quantity}`)
+    if(span)
+    {
     span.innerHTML = parseInt(span.innerHTML) + 1
+    }
+    let menuSpan = this.shadowRoot.querySelector(`#${menu}`)
+    menuSpan.innerHTML = parseInt(menuSpan.innerHTML) + 1
     let obj = this.cart.find(item => {
       return itemId == item.itemId
     })
