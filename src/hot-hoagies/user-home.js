@@ -67,7 +67,7 @@ class UserHome extends PolymerElement {
       </div>
       <div class="card-actions">
       <paper-icon-button id="removeBtn" on-click="_handleRemove" icon="remove"></paper-icon-button>
-      <span id="quantity{{list.foodItemName}}">0</span>
+      <span id="menu{{list.foodItemId}}">0</span>
       <paper-icon-button id="addBtn" on-click="_handleAdd" icon="add"></paper-icon-button>
       </div>
     </paper-card>
@@ -134,10 +134,7 @@ class UserHome extends PolymerElement {
       },
       cart: {
         type: Array,
-        value: [{
-          itemId: 1,
-          quantity: 0
-        }]
+        value: []
       }
     };
   }
@@ -183,14 +180,12 @@ class UserHome extends PolymerElement {
     this.$.ajax._makeAjaxCall('get',`http://10.117.189.28:8085/hothoagies/categories/${categoryId}/fooditems`,null,'fetchItems')
   }
   _fetchingItems(event) {
-    console.log(event.detail.data)
     this.categoryItems=event.detail.data.foodItemList
   }
   /**
    * @param {clickEvent} event Adding the quantity whenever the add button is pressed
    */
   _handleAdd(event) {
-    console.log(event.model.list)
     let itemId;
     if(event.model.list)
     {
@@ -200,9 +195,15 @@ class UserHome extends PolymerElement {
     {
      itemId = event.model.item.foodItemId;
     }
+    let menu = `menu${itemId}`
     let quantity = `quantity${itemId}`
     let span = this.shadowRoot.querySelector(`#${quantity}`)
+    if(span)
+    {
     span.innerHTML = parseInt(span.innerHTML) + 1
+    }
+    let menuSpan = this.shadowRoot.querySelector(`#${menu}`)
+    menuSpan.innerHTML = parseInt(menuSpan.innerHTML) + 1
     let obj = this.cart.find(item => {
       return itemId == item.itemId
     })
@@ -210,14 +211,12 @@ class UserHome extends PolymerElement {
       this.cart.forEach(element => {
         if (element.itemId == itemId) {
           element.quantity += 1
-          console.log(this.cart)
         }
       });
     }
     else {
       let pushObj = { itemId: itemId, quantity: 1 }
       this.cart.push(pushObj)
-      console.log(this.cart)
     }
     sessionStorage.setItem('myCart', JSON.stringify(this.cart))
   }
@@ -225,7 +224,6 @@ class UserHome extends PolymerElement {
    * @param {clickEvent} event Subtracting the quantity whenever the add button is pressed
    */
   _handleRemove(event) {
-    console.log(event.model.item.foodItemId)
     let itemId;
     if(event.model.list)
     {itemId = event.model.list.itemId;}
@@ -240,7 +238,6 @@ class UserHome extends PolymerElement {
       let obj = this.cart.find(item => {
         return itemId == item.itemId
       })
-      console.log(obj)
       if (obj) {
         let i = 0;
         this.cart.forEach(element => {
@@ -251,7 +248,6 @@ class UserHome extends PolymerElement {
             else {
               element.quantity -= 1
             }
-            console.log(this.cart)
           }
           i++;
         });
