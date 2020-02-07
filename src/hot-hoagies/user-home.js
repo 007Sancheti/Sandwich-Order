@@ -8,6 +8,7 @@ import '@polymer/paper-tabs/paper-tabs.js';
 import '@polymer/paper-tabs/paper-tab.js';
 import '@polymer/polymer/lib/elements/dom-repeat.js';
 import '@polymer/paper-spinner/paper-spinner.js';
+import '@polymer/app-route/app-location.js';
 import './ajax-call.js';
 /**
  * @customElement
@@ -41,15 +42,25 @@ class UserHome extends PolymerElement {
           --paper-tab-ink:blue;
           --paper-tabs-selection-bar-color:blue;
         }
+        #view-cart
+        {
+          margin-top:10px;
+          text-align:center;
+        }
+        #cart-btn
+        {
+          background: blue;
+          color:white;
+        }
       </style>
-      <h2>Hello [[prop1]]!</h2>
+      <h2>Frequently Ordered Items</h2>
       <ajax-call id="ajax"></ajax-call>
-      <template is="dom-repeat" items={{preferences.details}}>
-      <template is="dom-repeat" items={{item.items}} as="list">
+      <app-location route={{route}}></app-location>
+      <template is="dom-repeat" items={{preferences}} as="list">
     <paper-card elevation="2" animated-shadow="false">
       <div class="card-content">
-        <p>Name: {{list.ItemName}}</p>
-        <p>Category: {{item.categoryName}}</p>
+        <p>Name: {{list.foodItemName}}</p>
+        <p>Category: {{list.categoryName}}</p>
       </div>
       <div class="card-actions">
       <paper-icon-button id="removeBtn" on-click="_handleRemove" icon="remove"></paper-icon-button>
@@ -74,6 +85,9 @@ class UserHome extends PolymerElement {
 </ul>
 </paper-card>
 </template>
+<div id="view-cart">
+<paper-button raised id="cart-btn" on-click="_showCart">VIEW CART</paper-button>
+</div>
     `;
   }
   static get properties() {
@@ -152,13 +166,26 @@ class UserHome extends PolymerElement {
     super.ready();
     this.addEventListener('category-list', (e) => this._fetchingCategories(e))
     this.addEventListener('fetch-items', (e) => this._fetchingItems(e))
+    this.addEventListener('preference-list', (e) => this._preferences(e))
   }
       /**
    * call the API to fetch the data to render it on the screen
    */
   connectedCallback() {
     super.connectedCallback();
-    this.$.ajax._makeAjaxCall('get', `http://10.117.189.245:8085/hothoagies/categories`, null, 'categoriesList')
+    window.setTimeout(()=>{this.$.ajax._makeAjaxCall('get', `http://10.117.189.28:8085/hothoagies/users/${sessionStorage.getItem('userId')}/preference`, null, 'preferencesList')},1000)
+    this.$.ajax._makeAjaxCall('get', `http://10.117.189.28:8085/hothoagies/categories`, null, 'categoriesList');
+    // var preferenceList = new Promise((resolve, reject) => {
+    //   resolve(this.$.ajax._makeAjaxCall('get', `http://10.117.189.28:8085/hothoagies/users/${sessionStorage.getItem('userId')}/preference`, null, 'preferencesList'));
+      
+    // });
+    
+    // preferenceList.then(value => {
+    //   console.log(value); 
+    //   this.$.ajax._makeAjaxCall('get', `http://10.117.189.28:8085/hothoagies/categories`, null, 'categoriesList');
+    // }, reason => {
+    //   console.error(reason); 
+    // });
   }
    /**
    * @param {customEvent} event provide the data for dom-repeat to show the details of categories
@@ -253,6 +280,15 @@ class UserHome extends PolymerElement {
       }
     }
     sessionStorage.setItem('myCart', JSON.stringify(this.cart))
+  }
+  _showCart()
+  {
+    console.log("here")
+    this.set('route.path','./checkout')
+  }
+  _preferences(event){
+    console.log(event.detail.data.preferenceList)
+    this.preferences=event.detail.data.preferenceList
   }
 }
 
