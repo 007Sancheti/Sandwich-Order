@@ -65,7 +65,7 @@ class UserOrders extends PolymerElement {
   connectedCallback()
   {
     super.connectedCallback();
-  this.$.ajax._makeAjaxCall('get',`http://10.117.189.245:8085/hothoagies/users/${sessionStorage.getItem('userId')}/orders`,null,'myOrders')  
+  this.$.ajax._makeAjaxCall('get',`http://10.117.189.28:8085/hothoagies/users/${sessionStorage.getItem('userId')}/orders`,null,'myOrders')  
   }
   /**
    * 

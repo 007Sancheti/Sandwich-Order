@@ -144,7 +144,7 @@ class HotHoagies extends PolymerElement {
       items: {
         type: Array,
         value: function () {
-          return [{ label: 'User-Home', route: 'user-home' },{ label: 'Vendor-Home', route: 'staff-home' },{ label: 'Login', route: 'login' }, { label: 'Payment', route: 'payment' },{ label: 'checkout', route: 'checkout' },{ label: 'Ordersummary', route: 'order-summary' },{ label: 'staffOrders', route: 'staff-orders' },{ label: 'user-orders', route: 'user-orders' }]
+          return [{ label: 'User-Home', route: 'user-home' },{ label: 'Login', route: 'login' }, { label: 'Payment', route: 'payment' },{ label: 'checkout', route: 'checkout' },{ label: 'Ordersummary', route: 'order-summary' },{ label: 'user-orders', route: 'user-orders' }]
         }
       }
     };

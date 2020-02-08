@@ -8,8 +8,9 @@
     "src/hot-hoagies/order-checkout.js",
     "src/hot-hoagies/order-summary.js",
     "src/hot-hoagies/payment-page.js",
-    "src/hot-hoagies/smart-accordion.js",
+    "src/hot-hoagies/smart-accordian.js",
     "src/hot-hoagies/staff-orders.js",
+    "src/hot-hoagies/staff-home.js",
     "src/hot-hoagies/user-home.js",
     "src/hot-hoagies/user-orders.js",
     "src/hot-hoagies/shared-styles.js"

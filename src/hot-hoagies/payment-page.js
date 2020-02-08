@@ -242,7 +242,7 @@ class PaymentPage extends PolymerElement {
     const paymentMode=this.$.payment.selected;
     this.postObj={upiId,paymentMode}
     console.log(this.postObj);
-    this.$.ajax._makeAjaxCall('post',`http://10.117.189.208:8085/hothoagies/users/${sessionStorage.getItem('userId')}/order`,this.postObj,'payments')  
+    this.$.ajax._makeAjaxCall('post',`http://10.117.189.28:8085/hothoagies/users/${sessionStorage.getItem('userId')}/order`,this.postObj,'payments')  
     this.set('route.path','/order-summary')
   }
   ready() {
@@ -250,6 +250,7 @@ class PaymentPage extends PolymerElement {
     this.addEventListener('payments-page', (e) => this._payments(e))
   }
   _payments(event){
+    console.log(event.detail.data)
      this.orderId=event.detail.data.orderId;
      sessionStorage.setItem('orderId',this.orderId)
      this.eta=event.detail.data.eta;

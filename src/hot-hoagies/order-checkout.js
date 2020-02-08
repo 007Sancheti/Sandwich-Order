@@ -32,7 +32,7 @@ class OrderCheckout extends PolymerElement {
   <ajax-call id="ajax"></ajax-call>
   <app-location route={{route}}></app-location>
   <span><h2>Review your Orders</h2></span>
-  <template is="dom-repeat" items={{reviewOrders}}>
+  <template is="dom-repeat" items={{reviewOrders.items}}>
     <paper-card image="../../images/carousal1.jpg">
     <ul>
     <li>Items:
@@ -43,7 +43,7 @@ class OrderCheckout extends PolymerElement {
     </template>
     </li>
     <li>OrderId:{{item.cartId}}</li>
-    <li>Price:{{item.totalPrice}}</li>
+    <li>Price:{{reviewOrders.totalPrice}}</li>
     </ul>
     </paper-card>
     </template>
@@ -80,14 +80,14 @@ class OrderCheckout extends PolymerElement {
     console.log(myCart)
     this.postObj.items=myCart
     console.log(this.postObj)
-    this.$.ajax._makeAjaxCall('get',`http://10.117.189.245:8085/hothoagies/users/${sessionStorage.getItem('userId')}/carts`,this.postObj,'review')  
+    this.$.ajax._makeAjaxCall('post',`http://10.117.189.245:8085/hothoagies/users/${sessionStorage.getItem('userId')}/carts`,this.postObj,'review')  
   }
   /**
    * 
    * @param {customEvent} event provide the data for dom-repeat to show the details of order
    */
   _gettingOrders(event){  
-      this.reviewOrders=event.detail.data.orders
+      this.reviewOrders=event.detail.data
   }
   _handlePay(){
     this.set('route.path','/payment')

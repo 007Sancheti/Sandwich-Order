@@ -1,0 +1,114 @@
+{
+  "entrypoint": "index.html",
+  "shell": "src\\hot-hoagies\\hot-hoagies.js",
+  "fragments": [
+    "src/hot-hoagies/login-page.js",
+    "src/hot-hoagies/error-view.js",
+    "src/hot-hoagies/ajax-call.js",
+    "src/hot-hoagies/order-checkout.js",
+    "src/hot-hoagies/order-summary.js",
+    "src/hot-hoagies/payment-page.js",
+    "src/hot-hoagies/smart-accordian.js",
+    "src/hot-hoagies/staff-orders.js",
+    "src/hot-hoagies/staff-home.js",
+    "src/hot-hoagies/user-home.js",
+    "src/hot-hoagies/user-orders.js",
+    "src/hot-hoagies/shared-styles.js"
+  ],
+  "sources": [
+    "src/**/*",
+    "manifest/**",
+    "images/**/*",
+    "package.json",
+    "index.html",
+    "src/hot-hoagies/hot-hoagies.js",
+    "src/hot-hoagies/login-page.js",
+    "src/hot-hoagies/error-view.js",
+    "src/hot-hoagies/ajax-call.js",
+    "src/hot-hoagies/order-checkout.js",
+    "src/hot-hoagies/order-summary.js",
+    "src/hot-hoagies/payment-page.js",
+    "src/hot-hoagies/smart-accordian.js",
+    "src/hot-hoagies/staff-orders.js",
+    "src/hot-hoagies/staff-home.js",
+    "src/hot-hoagies/user-home.js",
+    "src/hot-hoagies/user-orders.js",
+    "src/hot-hoagies/shared-styles.js"
+  ],
+  "extraDependencies": [
+    "bower_components/webcomponentsjs/*.js",
+    "manifest.json",
+    "node_modules/@webcomponents/webcomponentsjs/**"
+  ],
+  "builds": [
+    {
+      "name": "es5prod",
+      "js": {
+        "minify": true,
+        "compile": "es5",
+        "transformModulesToAmd": true
+      },
+      "css": {
+        "minify": true
+      },
+      "html": {
+        "minify": true
+      },
+      "bundle": true,
+      "addServiceWorker": true,
+      "addPushManifest": false,
+      "preset": "es5-bundled"
+    },
+    {
+      "name": "es6prod",
+      "browserCapabilities": [
+        "es2015",
+        "push"
+      ],
+      "js": {
+        "minify": true,
+        "compile": "es2015",
+        "transformModulesToAmd": true
+      },
+      "css": {
+        "minify": true
+      },
+      "html": {
+        "minify": true
+      },
+      "bundle": false,
+      "addServiceWorker": true,
+      "addPushManifest": true,
+      "preset": "es6-unbundled"
+    },
+    {
+      "name": "es6-bundled",
+      "browserCapabilities": [
+        "es2015"
+      ],
+      "js": {
+        "minify": true,
+        "compile": "es2015",
+        "transformModulesToAmd": true
+      },
+      "css": {
+        "minify": true
+      },
+      "html": {
+        "minify": true
+      },
+      "bundle": true,
+      "addServiceWorker": true,
+      "addPushManifest": false,
+      "preset": "es6-bundled"
+    }
+  ],
+  "lint": {
+    "rules": [
+      "polymer-3"
+    ]
+  },
+  "npm": true,
+  "componentDir": "node_modules/",
+  "moduleResolution": "node"
+}

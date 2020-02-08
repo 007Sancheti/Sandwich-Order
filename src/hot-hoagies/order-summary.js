@@ -63,7 +63,7 @@ class OrderSummary extends PolymerElement {
   connectedCallback()
   {
     super.connectedCallback();
-    this.$.ajax._makeAjaxCall('get',`http://10.117.189.208:8085/hothoagies/orders/${sessionStorage.getItem('orderId')}`,null,'myOrders')  
+    this.$.ajax._makeAjaxCall('get',`http://10.117.189.28:8085/hothoagies/orders/${sessionStorage.getItem('orderId')}`,null,'myOrders')  
   }
    /**
    * 
